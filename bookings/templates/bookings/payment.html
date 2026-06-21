@@ -1,0 +1,34 @@
+{% extends 'bookings/base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card">
+
+        <h1>Complete Payment</h1>
+
+        <p>
+            You are reserving a session with
+            <strong>{{ booking.mentor.name }}</strong>.
+        </p>
+
+        <p><strong>Date:</strong> {{ booking.date }}</p>
+        <p><strong>Time:</strong> {{ booking.time }}</p>
+        <p><strong>Amount:</strong> ${{ booking.mentor.price }}</p>
+
+        <p>
+            This is a demo payment page. In production, this can connect to Paystack or Remita.
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <button type="submit" class="book-btn">
+                Pay & Submit Booking →
+            </button>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

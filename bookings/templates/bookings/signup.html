@@ -1,0 +1,49 @@
+{% extends 'bookings/base.html' %}
+
+{% block content %}
+
+<div class="signup-container">
+
+    <div class="signup-card">
+
+        <h1>Join MentorVerse 🌌</h1>
+        <p>Find Mentors. Build Dreams.</p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Username</label>
+            {{ form.username }}
+
+            <label>Full Name</label>
+            {{ form.full_name }}
+
+            <label>Email</label>
+            {{ form.email }}
+
+            <label>Gender</label>
+            {{ form.gender }}
+
+            <label>Field of Interest</label>
+            {{ form.field }}
+
+            <label>Career Goal</label>
+            {{ form.goal }}
+
+            <label>Password</label>
+            {{ form.password1 }}
+
+            <label>Confirm Password</label>
+            {{ form.password2 }}
+
+            <button type="submit" class="signup-submit">
+                Create Account →
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

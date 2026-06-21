@@ -1,0 +1,60 @@
+{% extends 'bookings/base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card mentor-profile-card">
+
+        {% if mentor.image %}
+            <img src="{{ mentor.image.url }}" alt="{{ mentor.name }}" class="mentor-image">
+        {% endif %}
+
+        <h1>{{ mentor.name }}</h1>
+
+        {% if mentor.is_featured %}
+            <span class="featured-badge">⭐ Featured Mentor</span>
+        {% endif %}
+
+        {% if mentor.company %}
+            <p class="mentor-company">{{ mentor.company }}</p>
+        {% endif %}
+
+        <p><strong>Expertise:</strong> {{ mentor.expertise }}</p>
+        <p>{{ mentor.bio }}</p>
+
+        <p class="rating">
+            ⭐ {{ mentor.rating }} • {{ mentor.reviews }} Reviews
+        </p>
+
+        <p class="mentor-price">
+            ${{ mentor.price }} / session
+        </p>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'reserve_session' mentor.id %}" class="book-btn">
+                Reserve Session →
+            </a>
+        {% else %}
+            <a href="/signup/" class="book-btn">Sign up to Reserve →</a>
+        {% endif %}
+
+    </div>
+
+    <h2>Student Reviews</h2>
+
+    <div class="grid">
+        {% for review in mentor.review_set.all %}
+            <div class="card">
+                <p class="rating">⭐ {{ review.rating }}/5</p>
+                <p>{{ review.comment }}</p>
+                <p><strong>— {{ review.user.username }}</strong></p>
+            </div>
+        {% empty %}
+            <div class="card">
+                <p>No reviews yet.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

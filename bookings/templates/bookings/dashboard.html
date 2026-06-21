@@ -1,0 +1,104 @@
+{% extends 'bookings/base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>Welcome back, {{ request.user.username }} 👋</h1>
+    <div class="stats-grid">
+
+    <div class="card">
+        <h2>{{ total_bookings }}</h2>
+        <p>Total Bookings</p>
+    </div>
+
+    <div class="card">
+        <h2>{{ pending_count }}</h2>
+        <p>Pending</p>
+    </div>
+
+    <div class="card">
+        <h2>{{ confirmed_count }}</h2>
+        <p>Confirmed</p>
+    </div>
+
+    <div class="card">
+        <h2>{{ completed_count }}</h2>
+        <p>Completed</p>
+    </div>
+
+</div>
+    <p>Track your mentorship sessions, payment status, admin approval, and reviews.</p>
+
+    <h2>My Bookings</h2>
+
+    <div class="grid">
+
+        {% for booking in bookings %}
+
+        <div class="card dashboard-card">
+
+            <h3>{{ booking.mentor.name }}</h3>
+
+            <p><strong>Date:</strong> {{ booking.date }}</p>
+            <p><strong>Time:</strong> {{ booking.time }}</p>
+
+            {% if booking.reason %}
+                <p><strong>Reason:</strong> {{ booking.reason }}</p>
+            {% endif %}
+
+            <p>
+                <strong>Booking Status:</strong>
+
+                {% if booking.status == "Pending" %}
+                    <span class="status pending">🟡 Pending</span>
+                {% elif booking.status == "Confirmed" %}
+                    <span class="status confirmed">🟢 Confirmed</span>
+                {% elif booking.status == "Declined" %}
+                    <span class="status declined">🔴 Declined</span>
+                {% elif booking.status == "Completed" %}
+                    <span class="status confirmed">✅ Completed</span>
+                {% elif booking.status == "Refunded" %}
+                    <span class="status pending">💸 Refunded</span>
+                {% endif %}
+            </p>
+
+            <p>
+                <strong>Payment:</strong>
+
+                {% if booking.payment_status == "Paid" %}
+                    <span class="status confirmed">🟢 Paid</span>
+                {% elif booking.payment_status == "Unpaid" %}
+                    <span class="status pending">🟡 Unpaid</span>
+                {% elif booking.payment_status == "Refunded" %}
+                    <span class="status declined">💸 Refunded</span>
+                {% endif %}
+            </p>
+
+            {% if booking.admin_note %}
+                <p><strong>Admin Note:</strong> {{ booking.admin_note }}</p>
+            {% endif %}
+
+            {% if booking.status == "Completed" %}
+                <a href="{% url 'leave_review' booking.id %}" class="book-btn">
+                    Leave Review ⭐
+                </a>
+            {% endif %}
+
+        </div>
+
+        {% empty %}
+
+        <div class="card">
+            <h3>No bookings yet</h3>
+            <p>You have not reserved any mentor session yet.</p>
+            <a href="/book/" class="book-btn">Explore Mentors</a>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

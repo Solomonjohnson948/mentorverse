@@ -1,0 +1,75 @@
+{% extends 'bookings/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="hero">
+    <h1>Explore Mentors</h1>
+    <p>Choose a mentor, review their expertise, and schedule a session.</p>
+</div>
+
+<div class="container">
+
+    <h2>Available Mentors</h2>
+
+    <div class="grid">
+
+        {% for mentor in mentors %}
+
+        <div class="card mentor-card">
+
+            {% if mentor.image %}
+                <img src="{{ mentor.image.url }}" alt="{{ mentor.name }}" class="mentor-image">
+            {% else %}
+                <div class="mentor-placeholder">👨‍💻</div>
+            {% endif %}
+
+            {% if mentor.is_featured %}
+                <span class="featured-badge">⭐ Featured Mentor</span>
+            {% endif %}
+
+            <h3>{{ mentor.name }}</h3>
+
+            {% if mentor.company %}
+                <p class="mentor-company">{{ mentor.company }}</p>
+            {% endif %}
+
+            <p><strong>{{ mentor.expertise }}</strong></p>
+
+            <p>{{ mentor.bio }}</p>
+
+            <div class="rating">
+                ⭐ {{ mentor.rating }}
+                <span>• {{ mentor.reviews }} Reviews</span>
+            </div>
+
+            <p class="mentor-price">
+                ${{ mentor.price }} / session
+            </p>
+
+            {% if user.is_authenticated %}
+                <a class="book-btn" href="{% url 'mentor_detail' mentor.id %}">
+                    View Profile →
+                </a>
+            {% else %}
+                <a class="book-btn" href="/signup/">
+                    Sign up to Reserve →
+                </a>
+            {% endif %}
+
+        </div>
+
+        {% empty %}
+
+        <div class="card">
+            <h3>No mentors available</h3>
+            <p>Please check back later.</p>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

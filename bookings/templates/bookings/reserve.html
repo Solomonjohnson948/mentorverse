@@ -1,0 +1,41 @@
+{% extends 'bookings/base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Reserve Session</h1>
+
+        <p>
+            You are booking a session with
+            <strong>{{ mentor.name }}</strong>.
+        </p>
+
+        <form method="POST">
+
+    {% csrf_token %}
+
+    <label>Mentor</label>
+    <input type="text" value="{{ mentor.name }}" readonly>
+
+    <label>Date</label>
+    {{ form.date }}
+
+    <label>Time</label>
+    {{ form.time }}
+
+    <label>Reason for Session</label>
+    {{ form.reason }}
+
+    <button type="submit" class="book-btn">
+        Proceed to Payment →
+    </button>
+
+</form>
+    </div>
+
+</div>
+
+{% endblock %}

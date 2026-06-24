@@ -13,4 +13,13 @@ urlpatterns = [
     path('reserve/<int:mentor_id>/', views.reserve_session, name='reserve_session'),
     path('payment/<int:booking_id>/', views.payment_page, name='payment'),
     path('review/<int:booking_id>/', views.leave_review, name='leave_review'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('update-booking/<int:booking_id>/', views.update_booking_status, name='update_booking_status'),
+    path('manage-mentors/', views.manage_mentors, name='manage_mentors'),
+path('add-mentor/', views.add_mentor, name='add_mentor'),
+path(
+    'edit-mentor/<int:mentor_id>/',
+    views.edit_mentor,
+    name='edit_mentor'
+),
 ]

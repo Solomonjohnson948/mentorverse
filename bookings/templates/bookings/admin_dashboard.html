@@ -1,0 +1,110 @@
+{% extends 'bookings/admin_base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>Admin Dashboard</h1>
+    <p>Manage all mentorship bookings and update their status.</p>
+    <div class="stats-grid">
+
+    <div class="stat-card">
+        <h3>{{ total_bookings }}</h3>
+        <p>Total Bookings</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>{{ pending_bookings }}</h3>
+        <p>Pending</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>{{ completed_bookings }}</h3>
+        <p>Completed</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>{{ total_mentors }}</h3>
+        <p>Total Mentors</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>${{ total_revenue }}</h3>
+        <p>Total Revenue</p>
+    </div>
+
+</div>
+    <a href="{% url 'manage_mentors' %}" class="book-btn">
+    Manage Mentors →
+</a>
+
+    <div class="card">
+        <h2>All Bookings</h2>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Mentor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                    <th>Admin Note</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <form method="POST" action="{% url 'update_booking_status' booking.id %}">
+                        {% csrf_token %}
+
+                        <td>{{ booking.customer_name }}</td>
+                        <td>{{ booking.mentor.name }}</td>
+                        <td>{{ booking.date }}</td>
+                        <td>{{ booking.time }}</td>
+
+                        <td>
+                            <select name="payment_status">
+                                <option value="Unpaid" {% if booking.payment_status == "Unpaid" %}selected{% endif %}>Unpaid</option>
+                                <option value="Paid" {% if booking.payment_status == "Paid" %}selected{% endif %}>Paid</option>
+                                <option value="Refunded" {% if booking.payment_status == "Refunded" %}selected{% endif %}>Refunded</option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <select name="status">
+                                <option value="Pending" {% if booking.status == "Pending" %}selected{% endif %}>Pending</option>
+                                <option value="Confirmed" {% if booking.status == "Confirmed" %}selected{% endif %}>Confirmed</option>
+                                <option value="Declined" {% if booking.status == "Declined" %}selected{% endif %}>Declined</option>
+                                <option value="Completed" {% if booking.status == "Completed" %}selected{% endif %}>Completed</option>
+                                <option value="Refunded" {% if booking.status == "Refunded" %}selected{% endif %}>Refunded</option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <input type="text" name="admin_note" value="{{ booking.admin_note|default:'' }}">
+                        </td>
+
+                        <td>
+                            <button type="submit" class="book-btn">
+                                Update
+                            </button>
+                        </td>
+                    </form>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="8">No bookings yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

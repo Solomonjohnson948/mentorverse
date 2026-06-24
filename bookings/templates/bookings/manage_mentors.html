@@ -1,0 +1,47 @@
+{% extends 'bookings/admin_base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Manage Mentors</h1>
+    <p>Add, view, edit, and manage MentorVerse mentors.</p>
+
+    <a href="/add-mentor/" class="book-btn">Add New Mentor +</a>
+
+    <div class="grid">
+        {% for mentor in mentors %}
+
+            <div class="card mentor-card">
+
+                {% if mentor.image %}
+                    <img src="{{ mentor.image.url }}" class="mentor-image">
+                {% endif %}
+
+                <h3>{{ mentor.name }}</h3>
+                <p>{{ mentor.expertise }}</p>
+                <p>${{ mentor.price }} / session</p>
+
+                {% if mentor.is_featured %}
+                    <span class="featured-badge">⭐ Featured</span>
+                {% endif %}
+
+                <br><br>
+
+                <a href="{% url 'edit_mentor' mentor.id %}" class="book-btn">
+                    Edit Mentor ✏️
+                </a>
+
+            </div>
+
+        {% empty %}
+
+            <div class="card">
+                <h3>No mentors yet</h3>
+                <p>Add your first mentor to begin.</p>
+            </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

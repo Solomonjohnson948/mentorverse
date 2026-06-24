@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MentorVerse Admin</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">🛠 MentorVerse Admin</div>
+
+    <div class="auth-buttons">
+        <a href="/admin-dashboard/" class="login-btn">Bookings</a>
+        <a href="/manage-mentors/" class="login-btn">Mentors</a>
+        <a href="/logout/" class="signup-btn">Logout</a>
+    </div>
+</nav>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+</body>
+</html>

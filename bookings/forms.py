@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-
-from .models import Booking, Profile, Review
+from .models import Booking, Profile, Review, Mentor
 
 
 class BookingForm(forms.ModelForm):
@@ -69,3 +68,19 @@ class ReviewForm(forms.ModelForm):
                 'placeholder': 'Share your experience with this mentor...'
             }),
         }
+
+
+class MentorForm(forms.ModelForm):
+    class Meta:
+        model = Mentor
+        fields = [
+            'name',
+            'expertise',
+            'bio',
+            'image',
+            'rating',
+            'reviews',
+            'company',
+            'price',
+            'is_featured',
+        ]

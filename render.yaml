@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: mentorverse
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn core.wsgi:application"
